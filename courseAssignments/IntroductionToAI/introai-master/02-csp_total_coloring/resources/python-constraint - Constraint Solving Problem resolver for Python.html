@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0035)https://labix.org/python-constraint -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>python-constraint - Constraint Solving Problem resolver for Python</title>
+
+
+<meta name="description" content="Constraint Solving Problem resolver for Python">
+<meta name="keywords" content="">
+<meta name="robots" content="index, follow, noarchive">
+<meta name="googlebot" content="noarchive">
+
+<link rel="stylesheet" type="text/css" media="screen" href="./python-constraint - Constraint Solving Problem resolver for Python_files/screen.css">
+
+<script type="text/javascript" async="" src="./python-constraint - Constraint Solving Problem resolver for Python_files/ga.js"></script><script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-3731229-4']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</head>
+<body>
+
+
+<div id="header-wrap"><div id="header" class="container_16">						
+
+	<h1 id="logo-text"><a href="https://labix.org/python-constraint" title="">python-constraint</a></h1>
+	<p id="intro">Constraint Solving Problem resolver for Python</p>
+
+	
+	<div id="nav">
+		<ul>
+			<li><a href="https://labix.org/">Home</a></li>
+			<li><a href="http://blog.labix.org/">Blog</a></li>
+			
+			<li id="current"><a href="https://labix.org/cobzr">python-constraint</a></li>
+			
+		</ul>		
+	</div>		
+	
+	
+
+
+</div></div>
+
+
+<div id="content-outer"><div id="content-wrapper" class="container_16">
+
+
+
+<div id="main" class="grid_12">
+
+<h2>Introduction</h2>
+
+<p>The Python <i>constraint</i> module offers solvers for Constraint Solving
+Problems (CSPs) over finite domains in simple and pure Python. CSP is class of
+problems which may be represented in terms of variables (a, b, ...), domains (a
+in [1, 2, 3], ...), and constraints (a &lt; b, ...).</p>
+
+<h2>Examples</h2>
+
+<h3>Basics</h3>
+
+<p>This interactive Python session demonstrates the module basic operation:</p>
+
+<code>
+&gt;&gt;&gt; from constraint import *
+&gt;&gt;&gt; problem = Problem()
+&gt;&gt;&gt; problem.addVariable("a", [1,2,3])
+&gt;&gt;&gt; problem.addVariable("b", [4,5,6])
+&gt;&gt;&gt; problem.getSolutions()
+[{'a': 3, 'b': 6}, {'a': 3, 'b': 5}, {'a': 3, 'b': 4},
+ {'a': 2, 'b': 6}, {'a': 2, 'b': 5}, {'a': 2, 'b': 4},
+ {'a': 1, 'b': 6}, {'a': 1, 'b': 5}, {'a': 1, 'b': 4}]
+
+&gt;&gt;&gt; problem.addConstraint(lambda a, b: a*2 == b,
+                          ("a", "b"))
+&gt;&gt;&gt; problem.getSolutions()
+[{'a': 3, 'b': 6}, {'a': 2, 'b': 4}]
+
+&gt;&gt;&gt; problem = Problem()
+&gt;&gt;&gt; problem.addVariables(["a", "b"], [1, 2, 3])
+&gt;&gt;&gt; problem.addConstraint(AllDifferentConstraint())
+&gt;&gt;&gt; problem.getSolutions()
+[{'a': 3, 'b': 2}, {'a': 3, 'b': 1}, {'a': 2, 'b': 3},
+ {'a': 2, 'b': 1}, {'a': 1, 'b': 2}, {'a': 1, 'b': 3}]
+</code>
+
+<h3>Rooks problem</h3>
+
+<p>The following example solves the classical
+<a href="http://en.wikipedia.org/wiki/Rook_polynomial#Rooks_problems">Eight Rooks</a> problem:</p>
+
+<code>
+problem = Problem()
+numpieces = 8
+cols = range(numpieces)
+rows = range(numpieces)
+problem.addVariables(cols, rows)
+for col1 in cols:
+    for col2 in cols:
+        if col1 &lt; col2:
+            problem.addConstraint(lambda row1, row2: row1 != row2,
+                                  (col1, col2))
+solutions = problem.getSolutions()
+</code>
+
+<h3>Magic squares</h3>
+
+<p>This example solves a 4x4 <a href="http://en.wikipedia.org/wiki/Magic_square">magic square</a>:</p>
+
+<code>
+problem = Problem()
+problem.addVariables(range(0, 16), range(1, 16+1))
+problem.addConstraint(AllDifferentConstraint(), range(0, 16))
+problem.addConstraint(ExactSumConstraint(34), [0,5,10,15])
+problem.addConstraint(ExactSumConstraint(34), [3,6,9,12])
+for row in range(4):
+    problem.addConstraint(ExactSumConstraint(34),
+                          [row*4+i for i in range(4)])
+for col in range(4):
+    problem.addConstraint(ExactSumConstraint(34),
+                          [col+4*i for i in range(4)])
+solutions = problem.getSolutions()
+</code>
+
+<h2>Features</h2>
+
+<p>The following solvers are available:</p>
+
+<ul>
+<li>Backtracking solver
+</li><li>Recursive backtracking solver
+</li><li>Minimum conflicts solver
+</li></ul>
+
+<p>Predefined constraint types currently available:</p>
+
+<ul>
+<li>FunctionConstraint
+</li><li>AllDifferentConstraint
+</li><li>AllEqualConstraint
+</li><li>ExactSumConstraint
+</li><li>MaxSumConstraint
+</li><li>MinSumConstraint
+</li><li>InSetConstraint
+</li><li>NotInSetConstraint
+</li><li>SomeInSetConstraint
+</li><li>SomeNotInSetConstraint
+</li></ul>
+
+<h2>API documentation</h2>
+
+<p>Documentation for the module is available at:</p>
+
+<p style="padding-left: 4em"><a href="http://labix.org/doc/constraint/">http://labix.org/doc/constraint/</a></p>
+
+
+<h2>Download</h2>
+
+<p>Download the module at the Python Package Index:</p>
+
+<p style="padding-left: 4em"><a href="https://pypi.python.org/pypi/python-constraint">https://pypi.python.org/pypi/python-constraint</a></p>
+
+
+<h2>Contact</h2>
+
+<p>Gustavo Niemeyer &lt;<a href="mailto:gustavo@niemeyer.net">gustavo@niemeyer.net</a>&gt;</p>
+
+</div>
+
+<div id="left-columns" class="grid_4">
+
+<div class="grid_4 alpha">
+
+	<div class="side-menu">
+		<h3>Resources</h3>
+		<ul>
+		<li><a href="http://labix.org/doc/constraint">API documentation</a></li>
+		<li><a href="mailto:gustavo@niemeyer.net">Email author</a></li>
+		</ul>
+	</div>
+
+</div>
+
+</div>
+
+		
+	</div></div>
+
+		
+	<div id="footer-wrapper" class="container_16">
+	
+		<div id="footer-bottom">
+			
+			<p class="bottom-center">
+				&nbsp; ©2011 Labix &nbsp; —
+				&nbsp; Design by <a href="http://www.styleshout.com/">Styleshout</a> &nbsp; —
+				&nbsp; <a href="https://labix.org/">Home</a> &nbsp; |
+				&nbsp; <a href="http://blog.labix.org/">Blog</a> &nbsp;
+			</p>
+	
+		</div>	
+			
+	</div>
+	
+
+
+
+
+</body></html>

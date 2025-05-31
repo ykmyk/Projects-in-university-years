@@ -1,0 +1,40 @@
+Running test first
+Test contains 5000 landings on an area of size 6 * 7
+Number of landings: 5000, successful reaches of destination: 3165, falls out of map: 1552, runs out of battery: 283
+Average number of steps when reaching destination: 22.489415481832545, average number of steps when falling out of map: 16.017396907216494, maximal number of steps 39
+You will receive 3 points assuming time and memory limits are satisfied.
+
+Running test second
+Test contains 2000 landings on an area of size 15 * 13
+Number of landings: 2000, successful reaches of destination: 1237, falls out of map: 467, runs out of battery: 296
+Average number of steps when reaching destination: 54.658852061438964, average number of steps when falling out of map: 46.51605995717345, maximal number of steps 84
+You will receive 2 points assuming time and memory limits are satisfied.
+
+Running test third
+Test contains 1000 landings on an area of size 20 * 21
+Number of landings: 1000, successful reaches of destination: 638, falls out of map: 206, runs out of battery: 156
+Average number of steps when reaching destination: 79.77115987460814, average number of steps when falling out of map: 67.33495145631068, maximal number of steps 123
+You will receive 1 points assuming time and memory limits are satisfied.
+
+Running test fourth
+Test contains 300 landings on an area of size 30 * 25
+Number of landings: 300, successful reaches of destination: 191, falls out of map: 53, runs out of battery: 56
+Average number of steps when reaching destination: 112.20418848167539, average number of steps when falling out of map: 107.84905660377359, maximal number of steps 165
+You will receive 1 points assuming time and memory limits are satisfied.
+
+Running test fifth
+Test contains 200 landings on an area of size 45 * 30
+Number of landings: 200, successful reaches of destination: 141, falls out of map: 27, runs out of battery: 32
+Average number of steps when reaching destination: 142.4113475177305, average number of steps when falling out of map: 135.62962962962962, maximal number of steps 225
+You will receive 2 points assuming time and memory limits are satisfied.
+
++-----------+------+---------+----------+------------+--------+--------------------+---------------------------+
+| Test name | Rows | Columns | Landings | Successful | Points |   Your time [s]    | Time limit on Recodex [s] |
++-----------+------+---------+----------+------------+--------+--------------------+---------------------------+
+|   first   |  6   |    7    |   5000   |    3165    |   3    |  8.81360387802124  |            300            |
+|   second  |  15  |    13   |   2000   |    1237    |   2    | 40.165406942367554 |            300            |
+|   third   |  20  |    21   |   1000   |    638     |   1    | 58.00995397567749  |            300            |
+|   fourth  |  30  |    25   |   300    |    191     |   1    | 42.15728783607483  |            300            |
+|   fifth   |  45  |    30   |   200    |    141     |   2    |  61.9440062046051  |            300            |
++-----------+------+---------+----------+------------+--------+--------------------+---------------------------+
+(venv) yukamiyake@Yukas-Laptop 06-localization_binary_senzor % 
