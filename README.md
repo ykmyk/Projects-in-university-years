@@ -5,7 +5,7 @@ I am Yuka Miyake, 3rd year Japanese student in Charles University in Czech repub
 
 Here is what I have done in my school years.
 
-Thank you for your time taking at my repository!
+Thank you for your time taking a look at my repository!
 
 ## /courseAssignment
 In this respository, I stored the code I have wrote during my semester as an assignment.
