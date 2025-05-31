@@ -1,4 +1,12 @@
 # Projects-in-university-years
+
+Hello!
+I am Yuka Miyake, 3rd year Japanese student in Charles University in Czech republic, majoring computer science.
+
+Here is what I have done in my school years.
+
+Thank you for your time taking at my repository!
+
 ## /courseAssignment
 In this respository, I stored the code I have wrote during my semester as an assignment.
 It has following subrepository
