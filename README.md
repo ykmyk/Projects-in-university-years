@@ -21,3 +21,10 @@ It has following subrepository with different coding language and each of them h
 - C#
 - C++
 - Java
+
+## /softwareProject_and_thesis
+This is the repository for software project and thesis.
+In my university, we first implement Individual Software Project, as a basement of the thesis, and we will do more academical resaerch for thesis based on / by using that software project.
+I am planning to implement web application of 1 week meal plan as a software project.
+After that, I will implement several optimization algorithm on the meal plan generation and do comparison research as my thesis.
+The detail plan will be find in README.md file in this repository.
