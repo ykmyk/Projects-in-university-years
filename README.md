@@ -13,6 +13,13 @@ It has following subrepository
 - introToAI
 This repository has the Assignments from the course called introduction to AI. We learned basic method/algorithm which are used to implement on AI in this course.
 Individual task has task specification (given by professor) and my solution code, test code(also provided by professor)
+- NaturalLanguageProcessing
+This repository has the Assignments from the course called Natural Language Processing.
+Each repository has task specification file so please take a look at it.
+All codes are written in python but for GoogleColab style.
+- NatureInspiredAlgorithm
+This repository has the Assignments from the course called Nature Inspired Algorithm.
+Each repository has task specification file so please take a look at it.
 
 ## /courseProject
 In this repository, I stored the codes I worked on as a semester project of some courses.
