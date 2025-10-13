@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Recipe | Meal Plan{% endblock %}
+{% block active_recipe_list %}active{% endblock %}
+
+{% block contents %}
+<div class="container my-div-style">
+    <h1 class="text-center mb-4">Create Recipe</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.name.label_tag }} {{ form.name }}
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-6">
+                {{ form.servings.label_tag }} {{ form.servings }}
+            </div>
+            <div class="col-6">
+                {{ form.duration_minutes.label_tag }} {{ form.duration_minutes }}
+            </div>
+        </div>
+
+        <div class="form-check mb-4">
+            {{ form.is_public }} {{ form.is_public.label_tag }}
+        </div>
+
+        <hr>
+        <h5>Ingredients</h5>
+
+        <div id="ingredients-container">
+            <div class="row g-2 mb-2 ingredient-row align-items-stretch">
+                <div class="col-md-6">
+                    <input name="ing-name[]" class="form-control control-42" placeholder="Ingredient name">
+                </div>
+
+                <div class="col-md-2">
+                    <input name="ing-qty[]" class="form-control control-42" placeholder="Quantity">
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input list="unit-list" name="ing-unit[]" class="form-control control-42" placeholder="Unit (optional)">
+                        <!-- keeps same height as input -->
+                    </div>
+                </div>
+
+                <div class="col-md-1 d-grid">
+                    <button type="button"
+                            class="btn btn-outline-secondary btn-icon remove-ingredient h-100"
+                            title="Remove ingredient">×</button>
+                </div>
+            </div>
+        </div>
+
+        <datalist id="unit-list">
+            <option value=""><option value="g"><option value="kg"><option value="ml">
+            <option value="l"><option value="tsp"><option value="tbsp"><option value="cup">
+            <option value="piece">
+        </datalist>
+
+        <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="add-ingredient">
+            Add Ingredient
+        </button>
+
+        <hr>
+        <h5>Cooking Steps</h5>
+
+        <input type="hidden" name="steps_text" id="steps_text_joined">
+
+        <div id="steps-container">
+            <div class="row g-2 mb-2 step-row align-items-stretch">
+                <div class="col-md-1 d-flex align-items-center justify-content-end">
+                    <span class="step-index">1.</span>
+                </div>
+
+                <div class="col-md-10">
+                    <textarea class="form-control control-42 step-text" rows="2"
+                               placeholder="Describe step 1..."></textarea>
+                </div>
+
+                <div class="col-md-1 d-grid">
+                <button type="button"
+                        class="btn btn-outline-secondary btn-icon remove-step h-100"
+                        title="Remove step">×</button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="add-step">
+            Add step
+        </button>
+                
+
+        <div class="mt-4 text-end">
+            <a href="{% url 'recipe:recipe_list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // ===== INGREDIENTS =====
+    const ingContainer = document.getElementById('ingredients-container');
+    const addIngBtn    = document.getElementById('add-ingredient');
+
+    function addIngredientRow() {
+        const first = ingContainer.querySelector('.ingredient-row');
+        const clone = first.cloneNode(true);
+        clone.querySelectorAll('input').forEach(i => i.value = '');
+        ingContainer.appendChild(clone);
+    }
+    addIngBtn.addEventListener('click', addIngredientRow);
+
+    ingContainer.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('remove-ingredient')) return;
+        const rows = ingContainer.querySelectorAll('.ingredient-row');
+        if (rows.length === 1) { rows[0].querySelectorAll('input').forEach(i => i.value=''); return; }
+        e.target.closest('.ingredient-row').remove();
+    });
+
+
+    // ===== COOKING STEPS =====
+    const stepsContainer = document.getElementById('steps-container');
+    const addStepBtn     = document.getElementById('add-step');
+    const stepsHidden    = document.getElementById('steps_text_joined');
+    const formEl         = document.querySelector('form');
+
+    function renumberSteps() {
+        const rows = stepsContainer.querySelectorAll('.step-row');
+        rows.forEach((row, i) => {
+        const n = i + 1;
+        row.querySelector('.step-index').textContent = n + '.';
+        row.querySelector('.step-text').placeholder  = 'Describe step ' + n + '...';
+        });
+    }
+
+    function addStepRow() {
+        const first = stepsContainer.querySelector('.step-row');
+        const clone = first.cloneNode(true);
+        clone.querySelector('.step-text').value = '';
+        stepsContainer.appendChild(clone);
+        renumberSteps();
+    }
+    addStepBtn.addEventListener('click', addStepRow);
+
+    stepsContainer.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('remove-step')) return;
+        const rows = stepsContainer.querySelectorAll('.step-row');
+        if (rows.length === 1) { rows[0].querySelector('.step-text').value=''; return; }
+        e.target.closest('.step-row').remove();
+        renumberSteps();
+    });
+
+    // join textareas -> single field for backend
+    formEl.addEventListener('submit', () => {
+        const lines = [...stepsContainer.querySelectorAll('.step-text')]
+        .map(t => t.value.trim()).filter(Boolean);
+        stepsHidden.value = lines.join('\n');
+    });
+
+    renumberSteps();
+</script>
+
+{% endblock %}

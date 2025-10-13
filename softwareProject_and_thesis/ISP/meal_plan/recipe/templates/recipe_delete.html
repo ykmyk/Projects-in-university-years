@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Recipe | Meal Plan{% endblock %}
+{% block active_recipe_list %}active{% endblock %}
+
+{% block contents %}
+<div class="container my-div-style">
+    <div class="row text-center">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Do you really want to delete this recipe?</p>
+            <button class="btn btn-danger mt-4" type="submit">Delete</button>
+            <a class="btn btn-secondary mt-4 ms-2" href="{% url 'recipe:recipe_detail' object.pk %}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

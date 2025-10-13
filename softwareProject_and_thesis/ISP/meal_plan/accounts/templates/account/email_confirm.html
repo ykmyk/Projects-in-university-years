@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm sign up | Meal Plan{% endblock %}
+
+{% block active_login %}active{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="row">
+        <div class="my-div-style">
+            <h1>User registration </h1>
+
+            {% if confirmation %}
+
+                <p>To confirm user registration, please click the button below</p>
+
+                <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                </form>
+
+            {% else %}
+
+                {% url 'account_email' as email_url %}
+
+                <p>This link has expired. 
+                    <a href="{{ email_url }}">
+                        Request again.
+                    </a>
+                </p>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

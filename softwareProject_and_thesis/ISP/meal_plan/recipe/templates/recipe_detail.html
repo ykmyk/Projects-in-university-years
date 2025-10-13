@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Recipe Detail | Meal Plan{% endblock %}
+{% block active_recipe_list %}active{% endblock %}
+
+{% block contents %}
+<div class="container my-div-style">
+    <h1 class="text-center mb-4">{{ object.name }}</h1>
+
+    <div class="row mb-2">
+        <div class="col-3"><strong>Servings:</strong></div>
+        <div class="col-9">{{ object.servings }}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-3"><strong>Duration:</strong></div>
+        <div class="col-9">{{ object.duration_minutes }} min</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><strong>Public:</strong></div>
+        <div class="col-9">{% if object.is_public %}Yes{% else %}No{% endif %}</div>
+    </div>
+
+    <hr>
+    <h4>Ingredients</h4>
+    <ul>
+        {% for ing in object.ingredients %}
+        <li>
+            {{ ing.name }}
+            {% if ing.quantity %} {{ ing.quantity }}{% endif %}
+            {% if ing.unit %} {{ ing.unit }}{% endif %}
+        </li>
+        {% empty %}
+        <li>No ingredients provided.</li>
+        {% endfor %}
+    </ul>
+
+    {% if steps_list %}
+    <hr>
+    <h4>Steps</h4>
+    <ol>
+    {% for line in steps_list %}
+        <li>{{ line }}</li>
+    {% endfor %}
+    </ol>
+    {% endif %}
+
+    <hr>
+    <p><strong>Created:</strong> {{ object.created_at }}<br>
+       <strong>Updated:</strong> {{ object.updated_at }}</p>
+
+    <div class="mt-3">
+        <a class="btn btn-success" href="{% url 'recipe:recipe_update' object.pk %}">Edit</a>
+        <a class="btn btn-danger ms-2" href="{% url 'recipe:recipe_delete' object.pk %}">Delete</a>
+    </div>
+</div>
+{% endblock %}

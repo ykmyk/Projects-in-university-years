@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+You can make your personal meal plan!
+Personal meal plan
+{% endblock %}
+
+{% block header %}
+
+<header class="masthead text-center text-white">
+    <div class="masthead-content">
+        <div class="container">
+            <h1 class="masthead-heading mb-0">Personal Meal Plan</h1>
+            <h2 class="masthead-subheading mb-0">your original meal planner</h2>
+            <a href="{% url 'account_login' %}" class="btn btn-primary btn-xl rounded-pill mt-5">
+                LOG IN
+            </a>
+        </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+</header>
+
+{% endblock %}
+
+{% block contents %}
+<section>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="{% static 'assets/img/01.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 order-g-1">
+                <div class="p-5">
+                    <h2 class="display-4">Set the ingredients</h2>
+                    <p> You can make food with what always you have</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="{% static 'assets/img/02.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-5">
+                    <h2 class="display-4">Personalize your plan</h2>
+                    <p>Make a meal plan based on your preference</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <div class="p-5">
+                    <img class="img-fluid rounded-circle" src="{% static 'assets/img/03.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 order-g-1">
+                <div class="p-5">
+                    <h2 class="display-4">Get your shopping list</h2>
+                    <p>We will suggest what you have and you don't have</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
