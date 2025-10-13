@@ -25,9 +25,13 @@ In the ISP version, we don't plan to implement "clever" algorithm on it.
 It will generate just random meal plan depending on the selected ingreditens
 
 ## current progress of ISP
+
 **update: 10th October**
+
 I've finished to implement the recipe creation part.
+
 So now the user can sign up / log in, and create/edit/delete own recipe.
+
 I am currently dealing with the issue with database that the recipe steps can't be saved well.
 
 
@@ -45,4 +49,5 @@ The main goal of the thesis is optimize the meal plan generation and compare the
 - Optimization on the food which they don't eat
 - Optimization of the nurtrition 
 - Optimization of the user's preference(include more that user picked previously, less that user deleted/changed etc.
+
 
