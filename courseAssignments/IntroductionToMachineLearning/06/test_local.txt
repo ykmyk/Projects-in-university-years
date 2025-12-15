@@ -1,0 +1,4 @@
+0	This movie was terrible and boring
+1	Absolutely amazing film, I loved every second
+0	Bad acting and weak story line
+1	Great acting and wonderful soundtrack
