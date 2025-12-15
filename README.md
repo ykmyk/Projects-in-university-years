@@ -20,6 +20,9 @@ All codes are written in python but for GoogleColab style.
 - NatureInspiredAlgorithm
 This repository has the Assignments from the course called Nature Inspired Algorithm.
 Each repository has task specification file so please take a look at it.
+-introToMachineLearning
+This repository has the Assignemnts from the course called introduction to Machine learning. 
+I learned variety of approach toward fundamental ML problems, by using numpy, pytorch, sklearn.
 
 ## /courseProject
 In this repository, I stored the codes I worked on as a semester project of some courses.
@@ -28,6 +31,7 @@ It has following subrepository with different coding language and each of them h
 - C#
 - C++
 - Java
+- Haskell
 
 ## /softwareProject_and_thesis
 This is the repository for software project and thesis.
