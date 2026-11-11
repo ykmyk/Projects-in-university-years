@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FocusTube - Blocked</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container blocked">
+        <h1>Access Denied</h1>
+        <p>You cannot watch this video right now.</p>
+        
+        <h3 id="reasonText"></h3>
+
+        <button class="secondary" onclick="window.history.back()">I Understand</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('reasonText').innerText = "Reason: " + params.get('reason');
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "Uw28RehWMp8=",
+  "success": true,
+  "projectFilePath": "/Users/yukamiyake/2026ss/C_charp/SemesterProject/miyakey/FocusTube.API/FocusTube.API.csproj",
+  "expectedPackageFiles": [
+    "/Users/yukamiyake/.nuget/packages/google.apis/1.74.0/google.apis.1.74.0.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/google.apis.auth/1.74.0/google.apis.auth.1.74.0.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/google.apis.core/1.74.0/google.apis.core.1.74.0.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/google.apis.youtube.v3/1.74.0.4137/google.apis.youtube.v3.1.74.0.4137.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/microsoft.aspnetcore.openapi/10.0.5/microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/microsoft.extensions.apidescription.server/10.0.0/microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/microsoft.openapi/2.4.1/microsoft.openapi.2.4.1.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/newtonsoft.json/13.0.4/newtonsoft.json.13.0.4.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/swashbuckle.aspnetcore/10.1.7/swashbuckle.aspnetcore.10.1.7.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/swashbuckle.aspnetcore.swagger/10.1.7/swashbuckle.aspnetcore.swagger.10.1.7.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.1.7/swashbuckle.aspnetcore.swaggergen.10.1.7.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.1.7/swashbuckle.aspnetcore.swaggerui.10.1.7.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/system.codedom/7.0.0/system.codedom.7.0.0.nupkg.sha512",
+    "/Users/yukamiyake/.nuget/packages/system.management/7.0.2/system.management.7.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

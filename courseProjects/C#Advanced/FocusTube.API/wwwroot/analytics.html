@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FocusTube - Analytics</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; text-align: left; }
+        .section-title { color: #4A90E2; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; text-align: left; }
+        .stat-text { font-size: 18px; color: #555; }
+        .limit-text { color: #999; font-size: 16px; }
+        .spent-text { font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analytics Dashboard</h1>
+        
+        <h3 class="section-title">Total Daily Limit</h3>
+        <div class="setting-row" id="totalBlock">
+            <strong>All YouTube Content</strong>
+            <div class="stat-text">Loading...</div>
+        </div>
+
+        <h3 class="section-title">By Category</h3>
+        <div id="categoryContainer">
+            <div class="stat-text">Loading...</div>
+        </div>
+
+        <h3 class="section-title">By Channel</h3>
+        <div id="channelContainer">
+            <div class="stat-text">Loading...</div>
+        </div>
+
+        <div class="links" style="margin-top: 40px;">
+            <a href="/" class="btn secondary">⬅ Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function formatTime(timeString) {
+            if (!timeString || timeString === "No Limit") return "No Limit";
+            const parts = timeString.split(':');
+            const h = parseInt(parts[0]) || 0;
+            const m = parseInt(parts[1]) || 0;
+            return `${h}h ${m}m`;
+        }
+
+        function createStatRow(name, spentStr, limitStr, prefix = "") {
+            const spent = formatTime(spentStr);
+            const limit = formatTime(limitStr);
+            const limitDisplay = limit === "No Limit" ? "No Limit" : `/ ${limit}`;
+            
+            return `
+                <div class="setting-row">
+                    <strong>${prefix}${name}</strong>
+                    <div class="stat-text">
+                        <span class="spent-text">${spent}</span> 
+                        <span class="limit-text">${limitDisplay}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/analytics/summary');
+                const data = await response.json();
+
+                // 1. Render Total
+                document.getElementById('totalBlock').innerHTML = `
+                    <strong>All YouTube Content</strong>
+                    <div class="stat-text">
+                        <span class="spent-text">${formatTime(data.total.spent)}</span> 
+                        <span class="limit-text">/ ${formatTime(data.total.limit)}</span>
+                    </div>
+                `;
+
+                // 2. Render Categories
+                const catContainer = document.getElementById('categoryContainer');
+                catContainer.innerHTML = '';
+                if (Object.keys(data.categories).length === 0) {
+                    catContainer.innerHTML = '<div class="limit-text">No category data yet.</div>';
+                } else {
+                    for (const [name, stats] of Object.entries(data.categories)) {
+                        catContainer.innerHTML += createStatRow(name, stats.spent, stats.limit);
+                    }
+                }
+
+                // 3. Render Channels
+                const chanContainer = document.getElementById('channelContainer');
+                chanContainer.innerHTML = '';
+                if (Object.keys(data.channels).length === 0) {
+                    chanContainer.innerHTML = '<div class="limit-text">No channel data yet.</div>';
+                } else {
+                    for (const [name, stats] of Object.entries(data.channels)) {
+                        chanContainer.innerHTML += createStatRow(name, stats.spent, stats.limit, "@");
+                    }
+                }
+
+            } catch (error) {
+                document.getElementById('categoryContainer').innerHTML = "<div class='error-text'>Error loading analytics.</div>";
+            }
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

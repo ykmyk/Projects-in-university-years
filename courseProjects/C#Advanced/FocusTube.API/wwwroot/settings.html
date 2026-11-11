@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FocusTube - Advanced Settings</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; text-align: left; }
+        .time-inputs input { width: 60px; text-align: center; margin: 0 5px; }
+        .section-title { color: #4A90E2; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; text-align: left; }
+        .error-text { color: red; font-size: 14px; display: block; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Settings</h1>
+        
+        <h3 class="section-title">Total Daily Limit</h3>
+        <div class="setting-row">
+            <strong>All YouTube Content</strong>
+            <div class="time-inputs">
+                <input type="number" id="totalH" min="0" max="24" value="2"> h 
+                <input type="number" id="totalM" min="0" max="59" value="0"> m
+            </div>
+        </div>
+
+        <h3 class="section-title">By Category</h3>
+        <div id="categoryContainer"></div>
+        
+        <div style="text-align: left; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+            <select id="newCategorySelect" style="width: 50%; padding: 8px;">
+                <option value="Action/Adventure">Action/Adventure</option>
+                <option value="Anime/Animation">Anime/Animation</option>
+                <option value="Autos & Vehicles">Autos & Vehicles</option>
+                <option value="Classics">Classics</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Documentary">Documentary</option>
+                <option value="Drama">Drama</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Family">Family</option>
+                <option value="Film & Animation">Film & Animation</option>
+                <option value="Foreign">Foreign</option>
+                <option value="Gaming">Gaming</option>
+                <option value="General/Other">General/Other</option>
+                <option value="Horror">Horror</option>
+                <option value="Howto & Style">Howto & Style</option>
+                <option value="Movies">Movies</option>
+                <option value="Music">Music</option>
+                <option value="News & Politics">News & Politics</option>
+                <option value="Nonprofits & Activism">Nonprofits & Activism</option>
+                <option value="People & Blogs">People & Blogs</option>
+                <option value="Pets & Animals">Pets & Animals</option>
+                <option value="Sci-Fi/Fantasy">Sci-Fi/Fantasy</option>
+                <option value="Short Movies">Short Movies</option>
+                <option value="Shorts">Shorts</option>
+                <option value="Shows">Shows</option>
+                <option value="Sports">Sports</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Trailers">Trailers</option>
+                <option value="Travel & Events">Travel & Events</option>
+                <option value="Videoblogging">Videoblogging</option>
+            </select>
+            <button onclick="addCategoryFromSelect()" class="secondary" style="padding: 8px 15px;">+ Add Category</button>
+            <span id="categoryError" class="error-text"></span>
+        </div>
+
+        <h3 class="section-title">By Channel</h3>
+        <div id="channelContainer"></div>
+        
+        <div style="text-align: left; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+            <input type="text" id="newChannelInput" placeholder="Paste Channel URL (e.g. https://youtube.com/@example)" style="width: 60%; padding: 8px;">
+            <button onclick="addChannelRow()" class="secondary" style="padding: 8px 15px;">+ Add Channel</button>
+            <span id="channelError" class="error-text" style="display:block; margin-top:5px;"></span>
+        </div>
+
+        <p id="message" style="margin-top: 25px; font-weight: bold;"></p>
+
+        <button onclick="saveAllSettings()" style="width: 100%; margin-top: 10px;">💾 Save All Changes</button>
+
+        <div class="links">
+            <a href="/" class="btn secondary">⬅ Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        
+        function addCategoryRow(name, h = 0, m = 0) {
+            const container = document.getElementById('categoryContainer');
+            const row = document.createElement('div');
+            row.className = 'setting-row category-row';
+            row.setAttribute('data-cat', name);
+            row.innerHTML = `
+                <strong>${name}</strong>
+                <div class="time-inputs">
+                    <input type="number" class="catH" min="0" max="24" value="${h}"> h 
+                    <input type="number" class="catM" min="0" max="59" value="${m}"> m
+                </div>
+            `;
+            container.appendChild(row);
+        }
+
+        function addCategoryFromSelect() {
+            const select = document.getElementById('newCategorySelect');
+            const catName = select.value;
+            const errorSpan = document.getElementById('categoryError');
+            
+            if (document.querySelector(`.category-row[data-cat="${catName}"]`)) {
+                errorSpan.innerText = "You already have this category.";
+                return;
+            }
+            
+            errorSpan.innerText = ""; 
+            addCategoryRow(catName, 0, 0);
+        }
+
+        function addChannelRow(name = "", h = 0, m = 0) {
+            let channelName = name;
+            const errorSpan = document.getElementById('channelError');
+            if (errorSpan) errorSpan.innerText = ""; // Clear old errors
+            
+            if (!channelName) {
+                let input = document.getElementById('newChannelInput').value.trim();
+                if (!input) return;
+
+                // 1. REJECT VIDEO LINKS OR RANDOM SITES
+                if (input.includes('/watch') || input.includes('youtu.be/')) {
+                    if (errorSpan) errorSpan.innerText = "Invalid link: it is not a link to the Youtube channel";
+                    return;
+                }
+
+                // 2. PARSE VALID CHANNEL LINKS
+                if (input.includes('youtube.com/')) {
+                    if (input.includes('/@')) {
+                        channelName = input.split('/@')[1].split('/')[0].split('?')[0];
+                    } else if (input.includes('/channel/')) {
+                        channelName = input.split('/channel/')[1].split('/')[0].split('?')[0];
+                    } else if (input.includes('/c/')) {
+                        channelName = input.split('/c/')[1].split('/')[0].split('?')[0];
+                    } else if (input.includes('/user/')) {
+                        channelName = input.split('/user/')[1].split('/')[0].split('?')[0];
+                    } else {
+                        if (errorSpan) errorSpan.innerText = "Invalid link: it is not a link to the Youtube channel";
+                        return;
+                    }
+                } 
+                // 3. ALLOW RAW HANDLES (e.g. "@yurugengo")
+                else if (input.startsWith('@') && !input.includes('/')) {
+                    channelName = input.substring(1);
+                } 
+                else {
+                    if (errorSpan) errorSpan.innerText = "Invalid link: it is not a link to the Youtube channel";
+                    return;
+                }
+            }
+
+            if (document.querySelector(`.channel-row[data-chan="${channelName}"]`)) {
+                if (errorSpan && !name) errorSpan.innerText = "You already have this channel.";
+                return;
+            }
+
+            const container = document.getElementById('channelContainer');
+            const row = document.createElement('div');
+            row.className = 'setting-row channel-row';
+            row.setAttribute('data-chan', channelName);
+            row.innerHTML = `
+                <strong>@${channelName}</strong>
+                <div class="time-inputs">
+                    <input type="number" class="chanH" min="0" max="24" value="${h}"> h 
+                    <input type="number" class="chanM" min="0" max="59" value="${m}"> m
+                </div>
+            `;
+            container.appendChild(row);
+            document.getElementById('newChannelInput').value = ""; 
+        }
+
+        
+        function validateTime(h, m) {
+            if (h > 24 || (h === 24 && m > 0)) return false;
+            return true;
+        }
+
+        async function saveAllSettings() {
+            const msg = document.getElementById('message');
+            msg.innerText = "Saving...";
+            msg.style.color = "#4A90E2";
+
+            const payload = { Total: {}, Categories: {}, Channels: {} };
+
+            // Grab Total
+            const tH = parseInt(document.getElementById('totalH').value) || 0;
+            const tM = parseInt(document.getElementById('totalM').value) || 0;
+            if (!validateTime(tH, tM)) {
+                msg.innerText = "❌ Limits cannot exceed 24 hours.";
+                msg.style.color = "red";
+                return;
+            }
+            payload.Total = { Hours: tH, Minutes: tM };
+
+            // Grab Categories
+            let hasError = false;
+            document.querySelectorAll('.category-row').forEach(row => {
+                const h = parseInt(row.querySelector('.catH').value) || 0;
+                const m = parseInt(row.querySelector('.catM').value) || 0;
+                if (!validateTime(h, m)) hasError = true;
+                payload.Categories[row.getAttribute('data-cat')] = { Hours: h, Minutes: m };
+            });
+
+            // Grab Channels
+            document.querySelectorAll('.channel-row').forEach(row => {
+                const h = parseInt(row.querySelector('.chanH').value) || 0;
+                const m = parseInt(row.querySelector('.chanM').value) || 0;
+                if (!validateTime(h, m)) hasError = true;
+                payload.Channels[row.getAttribute('data-chan')] = { Hours: h, Minutes: m };
+            });
+
+            if (hasError) {
+                msg.innerText = "❌ Limits cannot exceed 24 hours.";
+                msg.style.color = "red";
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/settings/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    msg.innerText = "✅ " + data.message;
+                    msg.style.color = "green";
+                } else {
+                    const errorText = await res.text();
+                    msg.innerText = "❌ " + errorText;
+                    msg.style.color = "red";
+                }
+            } catch (e) {
+                msg.innerText = "Connection error.";
+                msg.style.color = "red";
+            }
+        }
+
+        async function loadCurrentSettings() {
+            try {
+                const response = await fetch('/api/settings/current');
+                const data = await response.json();
+
+                document.getElementById('totalH').value = data.total.hours;
+                document.getElementById('totalM').value = data.total.minutes;
+
+                const catContainer = document.getElementById('categoryContainer');
+                catContainer.innerHTML = ''; 
+
+                if (Object.keys(data.categories).length > 0) {
+                    for (const [catName, time] of Object.entries(data.categories)) {
+                        addCategoryRow(catName, time.hours, time.minutes);
+                    }
+                } else {
+                    for (const [catName, time] of Object.entries(data.categories)) {
+                        addCategoryRow(catName, time.hours, time.minutes);
+                    }
+                }
+
+                const channelContainer = document.getElementById('channelContainer');
+                channelContainer.innerHTML = ''; 
+                for (const [chanName, time] of Object.entries(data.channels)) {
+                    addChannelRow(chanName, time.hours, time.minutes);
+                }
+            } catch (error) {
+                console.error("Failed to load settings.");
+            }
+        }
+
+        loadCurrentSettings();
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FocusTube - Home</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>FocusTube</h1>
+        <p class="subtitle">Paste a YouTube link to check your limits.</p>
+        
+        <div class="input-group">
+            <input type="text" id="videoId" placeholder="https://youtu.be/..." />
+            <button onclick="checkVideo()">Watch Video</button>
+        </div>
+
+        <p id="message"></p>
+
+        <div class="links">
+            <a href="/analytics.html" class="btn">📊 View My Analytics</a>
+            <a href="/settings.html" class="btn secondary">⚙️ Settings</a>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to strictly validate and extract a YouTube Video ID
+        function extractVideoId(input) {
+            // 1. Check if the user just pasted an 11-character raw video ID (e.g., dQw4w9WgXcQ)
+            if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+                return input;
+            }
+            
+            // 2. Check for standard youtu.be shortlinks
+            if (input.includes("youtu.be/")) {
+                return input.split("youtu.be/")[1].split("?")[0].split("/")[0];
+            }
+            
+            // 3. Check for standard youtube.com/watch?v= links
+            if (input.includes("youtube.com/watch") && input.includes("v=")) {
+                return input.split("v=")[1].split("&")[0];
+            }
+
+            // 4. Check for YouTube Shorts links
+            if (input.includes("youtube.com/shorts/")) {
+                return input.split("shorts/")[1].split("?")[0].split("/")[0];
+            }
+
+            // If it doesn't match any known YouTube video pattern, return null
+            return null;
+        }
+
+        async function checkVideo() {
+            const id = document.getElementById('videoId').value.trim();
+            const msgElement = document.getElementById('message');
+            
+            if (!id) {
+                msgElement.innerText = "Please enter a link first.";
+                msgElement.style.color = "red";
+                return;
+            }
+
+            // --- FRONTEND VALIDATION ---
+            const videoIdToPass = extractVideoId(id);
+            
+            // If the link is a random string or a non-YouTube website, stop here.
+            if (!videoIdToPass) {
+                msgElement.innerText = "Invalid Link: Please enter a valid YouTube video link.";
+                msgElement.style.color = "red";
+                return;
+            }
+
+            msgElement.innerText = "Checking...";
+            msgElement.style.color = "#4A90E2"; 
+
+            try {
+                // Call the C# Backend using only the clean 11-character ID
+                const response = await fetch(`/api/Video/check/${videoIdToPass}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    msgElement.innerText = `✅ Allowed! Category: ${data.category}`;
+                    msgElement.style.color = "green";
+                } else {
+                    // Logic Error: The backend rejected it (either over limit or invalid ID)
+                    const reasonText = data.reason || data.message || "Unknown error";
+                    window.location.href = `/blocked.html?reason=${encodeURIComponent(reasonText)}`;
+                }
+            } catch (error) {
+                // Network Error: Only triggers if the server is offline or the connection drops
+                msgElement.innerText = "Error: Could not connect to the server.";
+                msgElement.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>

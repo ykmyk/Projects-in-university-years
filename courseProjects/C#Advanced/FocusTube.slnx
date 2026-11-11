@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FocusTube.API/FocusTube.API.csproj" />
+  <Project Path="FocusTube.Core/FocusTube.Core.csproj" />
+  <Project Path="FocusTube.Services/FocusTube.Services.csproj" />
+  <Project Path="FocusTube.Tests/FocusTube.Tests.csproj" />
+</Solution>

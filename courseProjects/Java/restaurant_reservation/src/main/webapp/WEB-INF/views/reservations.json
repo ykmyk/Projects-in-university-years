@@ -1,1 +1,16 @@
-{ }
+{
+  "73b7288f-dbae-44d5-b084-abe12fbedcd9" : {
+    "resId" : "73b7288f-dbae-44d5-b084-abe12fbedcd9",
+    "customer" : {
+      "cusId" : "9588b310-2cca-42aa-8101-878e00367361",
+      "name" : "Yuka Miyake",
+      "email" : "ykmyk0528+ac@gmail.com",
+      "phone" : "608979240"
+    },
+    "date" : [ 2000, 2, 9 ],
+    "time" : [ 0, 0 ],
+    "partySize" : 5,
+    "deposit" : 25,
+    "status" : "PENDING"
+  }
+}

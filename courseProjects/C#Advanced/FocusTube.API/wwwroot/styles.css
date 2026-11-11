@@ -1,0 +1,99 @@
+/* =========================================
+   FocusTube - Clean Card Layout
+   ========================================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8; /* Soft blue/gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+/* Base Card Style */
+.container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    max-width: 550px;
+    width: 100%;
+}
+
+.container.blocked {
+    border-top: 6px solid #e74c3c;
+}
+
+h1 { color: #4A90E2; font-size: 36px; margin-top: 0; }
+p.subtitle { color: #7f8c8d; font-size: 18px; margin-bottom: 30px; }
+
+/* --- Forms & Buttons --- */
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between input and button */
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1; 
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #4A90E2;
+}
+
+/* Share styles for both <button> and <a> links acting as buttons */
+button, .btn {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover, .btn:hover { background-color: #357ABD; }
+button:active, .btn:active { transform: scale(0.98); }
+
+/* Gray button for the blocked page */
+button.secondary, .btn.secondary { background-color: #7f8c8d; }
+button.secondary:hover, .btn.secondary:hover { background-color: #636e72; }
+
+#message { margin-top: 15px; font-weight: bold; font-size: 18px; }
+
+.links { margin-top: 35px; }
+
+/* --- Analytics Specific Styles --- */
+.analytics h1 { color: #333; font-size: 28px; }
+
+.time-block { margin: 25px 0; font-size: 18px; color: #555; }
+.big-number { font-size: 42px; font-weight: bold; color: #4A90E2; margin: 0 5px; vertical-align: middle; }
+.sub-time { color: #999; font-size: 16px; margin-bottom: 30px; }
+
+.category-section { text-align: left; margin-top: 40px; }
+.category-section h3 { color: #4A90E2; font-size: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+.category-list { list-style: none; padding: 0; margin: 0; }
+.category-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; font-size: 18px; }
+.cat-name { font-weight: bold; color: #333; }
+.cat-time { color: #555; }
+
+/* --- Blocked Page Specific Styles --- */
+.blocked h1 { color: #e74c3c; }
+#reasonText { background-color: #fce4e4; color: #c0392b; padding: 15px; border-radius: 6px; font-weight: normal; margin-bottom: 25px; }
